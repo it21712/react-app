@@ -62,7 +62,7 @@ function App() {
     const location = useLocation();
 
     return user.loggedIn 
-    ? <props.component />
+    ? <props.component user={props.user} />
     : <Navigate to="/login" replace state={{ from: location }} />;
 
     
@@ -83,9 +83,23 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login user={user} setUser={setUser}/>} />
         <Route path="/logout" element={<Logout user={user} setUser={setUser}/>} />
-        <Route path='/profile' element={<PrivateRoute component={Profile}/>}/>
+        <Route path='/profile' element={<PrivateRoute component={Profile } user={user}/>}/>
+        
+       
+        {/* CITIZEN ROUTES */}
+        {/* <Route path='/add-pet' element={<PrivateRoute component={AddPet}/>}/>
+        <Route path='/view-pets' element={<PrivateRoute component={ViewPets}/>}/> */}
+
+        {/* VET ROUTES */}
+        {/* <Route path='/view-pending' element={<PrivateRoute component={ViewPending}/>}/>
+        <Route path='/verify-pet' element={<PrivateRoute component={VerifyPet}/>}/>
+        <Route path='/update-pet' element={<PrivateRoute component={UpdatePet}/>}/> */}
+        
+        {/* CIVIC ROUTES */}
+        {/* <Route path='/find-pets' element={<PrivateRoute component={FindPets}/>}/> */}
         
         
+
         </Route>
       </Routes>
     </BrowserRouter>
