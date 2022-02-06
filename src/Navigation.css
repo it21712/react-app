@@ -1,0 +1,36 @@
+ul.bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(88, 124, 223);
+    border: 1px solid black;
+  }
+  
+  ul.bar li.right {
+    float: right;
+  }
+  
+  ul.bar li {
+    float: left;
+  }
+  
+  .node {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 22px 28px;
+    text-decoration: none;
+    border: 1px solid black;
+    border-style: ridge;
+  }
+  
+  .node:hover {
+    background-color: #555;
+    color: white;
+  }
+
+  .node.active {
+    background-color: #04aa6d;
+  }
+  
