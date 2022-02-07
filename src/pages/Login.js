@@ -6,15 +6,16 @@ import './Login.css'
 import { saveUser } from '../Globals';
 
 const Login = (props) => {
+
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [credentials, setCredentials] = useState({username:'', password:''}) 
+
     console.log(props.user)
-    let headers = {"Authorization" : `Basic ${base64.encode(`${props.user.username}:${props.user.password}`)}`} 
     
 
     if(props.user.loggedIn){
-        console.log(props.user.loggedIn)
         const { from } = location.state || { from: { pathname: "/profile" } };
         navigate(from, {replace:true});
     }
@@ -24,15 +25,14 @@ const Login = (props) => {
     const onLoginPressed = (event)=> {
         event.preventDefault()
         
-        console.log("credentials from form -> "+props.user.username+":"+props.user.password)
-        sendCredentials(props.user.username, props.user.password);
+        sendCredentials(credentials.username, credentials.password);
         
     };
 
     const handleInputChange = (event) =>{
-        props.setUser(prevUser => ({
+        setCredentials(prevCreds => ({
             
-            ...prevUser,
+            ...prevCreds,
             [event.target.name] : event.target.value
 
         }));
@@ -44,6 +44,8 @@ const Login = (props) => {
 
         const res = await fetch('http://localhost:8080/logged_in',
         {
+            mode:'cors',
+            credentials:'include',
             headers: new Headers({
                 "Authorization" : `Basic ${base64.encode(`${username}:${password}`)}`
             })}
@@ -57,8 +59,8 @@ const Login = (props) => {
             }else{
                 setLoginMessage("")
                 const data = await res.json()
-                props.setUser({username:`${username}`, password:`${password}`, loggedIn:true, role:data.authorities[0].role})
-               saveUser(username,password, true, data.authorities[0].role)
+                props.setUser({role:data.authorities[0].role,loggedIn:true})
+               //saveUser(username,password, true, data.authorities[0].role)
                 const { from } = location.state || { from: { pathname: "/profile" } };
                 navigate(from, {replace:true});
             }

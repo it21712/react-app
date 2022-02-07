@@ -9,6 +9,21 @@ const Logout = (props) => {
 
 
 
+  const logout = async () => {
+
+    const res = await fetch('http://localhost:8080/logout',
+    {
+      mode:'cors',
+      credentials:'include'
+    });
+
+    const data = await res.json();
+
+    console.log(data)
+  }
+
+  logout();
+
     props.setUser(removeUser)
     if(props.user.loggedIn === null) {
         const { from } = location.state || { from: { pathname: "/home" } };

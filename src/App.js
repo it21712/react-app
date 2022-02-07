@@ -9,50 +9,50 @@ import Profile from './pages/Profile';
 import base64 from 'react-native-base64';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
+import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/react.production.min';
 
 function App() {
 
 
-  
+  const [user, setUser] = useState({role:'ROLE_ANONYMOUS', loggedIn:false})
 
-  const [user, setUser] = useState({
-    username:localStorage.getItem('username'),
-    password:localStorage.getItem('password'),
-    loggedIn:localStorage.getItem('loggedIn') === 'true',
-    role:localStorage.getItem('role')
-  });
-
-
-
-  const checkLoggedIn = async (username, password) => {
-    const res = await fetch('http://localhost:8080/logged_in',
+  const checkLoggedIn = async () => {
+    fetch('http://localhost:8080/logged_in',
     {
-      headers: new Headers({
-        "Authorization" : `Basic ${base64.encode(`${username}:${password}`)}`
-      })
+      mode: 'cors',
+      credentials:'include'
+      
     }
-    );
-    //console.log(res.json())
-    const data = await res.json();
-    if(res.status !== 401){
-      setUser({
-        username:username,
-        password:password,
-        loggedIn:true,
-        role:data.authorities[0].role
+    )
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.authorities[0].role)
+      console.log(data.authorities[0].role)
+      
+      const responseRole = data.authorities[0].role;
+      if(responseRole === 'ROLE_ANONYMOUS' || responseRole === 'ROLE_ADMIN'){
+        setUser({role:'ROLE_ANONYMOUS', loggedIn:false})
+        console.log('logged out')
+      }else{
+        console.log('logged in')
         
-      })
+        setUser({role:data.authorities[0].role, loggedIn:true})
+      }
+    
+    })
 
-      //console.log(user);
-    }
+    
+      
+    
+    /* const data = await res.json();
+    console.log(user) */
+   
 
     
   };
 
   useEffect(() => {
-    console.log(user)
-    checkLoggedIn(user.username, user.password);
-    
+    checkLoggedIn();
   }, []);
   
 
@@ -79,7 +79,7 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigation user={user} setUser={setUser} />}>
+        <Route path="/" element={<Navigation user={user} setUser={setUser} />}> {/* //TODO PARAMS TO ROUTES */}
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login user={user} setUser={setUser}/>} />
         <Route path="/logout" element={<Logout user={user} setUser={setUser}/>} />
