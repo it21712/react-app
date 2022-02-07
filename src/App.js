@@ -6,7 +6,6 @@ import Navigation from './Navigation';
 import Home from './pages/Home';
 import Authentication from './Authentication';
 import Profile from './pages/Profile';
-import base64 from 'react-native-base64';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/react.production.min';
@@ -30,6 +29,7 @@ function App() {
       console.log(data.authorities[0].role)
       
       const responseRole = data.authorities[0].role;
+      
       if(responseRole === 'ROLE_ANONYMOUS' || responseRole === 'ROLE_ADMIN'){
         setUser({role:'ROLE_ANONYMOUS', loggedIn:false})
         console.log('logged out')
@@ -41,14 +41,6 @@ function App() {
     
     })
 
-    
-      
-    
-    /* const data = await res.json();
-    console.log(user) */
-   
-
-    
   };
 
   useEffect(() => {

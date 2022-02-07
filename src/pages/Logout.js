@@ -11,18 +11,25 @@ const Logout = (props) => {
 
   const logout = async () => {
 
-    const res = await fetch('http://localhost:8080/logout',
+    fetch('http://localhost:8080/logout',
     {
       mode:'cors',
       credentials:'include'
-    });
+    })
+    .then(response => {
+      console.log(response)
 
-    const data = await res.json();
+      props.setUser({role:'ROLE_ANONYMOUS', loggedIn:false})
+    })
+    
+    .catch(error => console.log(error));
 
-    console.log(data)
+    
   }
-
-  logout();
+  useEffect(() =>{
+    logout();
+  }, [])
+  
 
     props.setUser(removeUser)
     if(props.user.loggedIn === null) {

@@ -16,7 +16,7 @@ const Login = (props) => {
     
 
     if(props.user.loggedIn){
-        const { from } = location.state || { from: { pathname: "/profile" } };
+        const { from } = location.state || { from: { pathname: "/home" } };
         navigate(from, {replace:true});
     }
 
@@ -50,20 +50,22 @@ const Login = (props) => {
                 "Authorization" : `Basic ${base64.encode(`${username}:${password}`)}`
             })}
 
-            );
+            )
+            .then(response => response.json())
+            .then(data => {
+                const responseRole = data.authorities[0].role;
+                if(responseRole === 'ROLE_ANONYMOUS' || responseRole === 'ROLE_ADMIN'){
+                    setLoginMessage("Wrong Credentials. Please try again")
+                    console.log('logged out')
+                  }else{
+                    console.log('logged in')
+                    
+                    props.setUser({role:data.authorities[0].role, loggedIn:true})
+                    const { from } = location.state || { from: { pathname: "/profile" } };
+                    navigate(from, {replace:true});
+                  }
+            })
 
-            //console.log("Sendin credentials: ", username,":", password)
-            if(res.status === 401){
-                setLoginMessage("Wrong Credentials. Please try again")
-
-            }else{
-                setLoginMessage("")
-                const data = await res.json()
-                props.setUser({role:data.authorities[0].role,loggedIn:true})
-               //saveUser(username,password, true, data.authorities[0].role)
-                const { from } = location.state || { from: { pathname: "/profile" } };
-                navigate(from, {replace:true});
-            }
         }
 
 

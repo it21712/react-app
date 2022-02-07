@@ -28,9 +28,8 @@ const Profile = (props) => {
         const res = await fetch('http://localhost:8080/'+`${rolePath}`+'/home',
         
         {
-            headers: new Headers({
-                "Authorization" : `Basic ${base64.encode(`${props.user.username}:${props.user.password}`)}`
-            })
+            mode:'cors',
+            credentials:'include'
         }
 
         );
