@@ -8,6 +8,11 @@ import Authentication from './Authentication';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
+import ViewPending from './pages/ViewPending';
+/* import VerifyPet from './pages/VerifyPet'; */
+import UpdatePet from './pages/UpdatePet';
+import AddPet from './pages/AddPet';
+import ViewPets from './pages/ViewPets';
 import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/react.production.min';
 
 function App() {
@@ -79,13 +84,13 @@ function App() {
         
        
         {/* CITIZEN ROUTES */}
-        {/* <Route path='/add-pet' element={<PrivateRoute component={AddPet}/>}/>
-        <Route path='/view-pets' element={<PrivateRoute component={ViewPets}/>}/> */}
+        <Route path='/add-pet' element={<PrivateRoute component={AddPet}/>}/>
+        <Route path='/view-pets' element={<PrivateRoute component={ViewPets}/>}/>
 
         {/* VET ROUTES */}
-        {/* <Route path='/view-pending' element={<PrivateRoute component={ViewPending}/>}/>
-        <Route path='/verify-pet' element={<PrivateRoute component={VerifyPet}/>}/>
-        <Route path='/update-pet' element={<PrivateRoute component={UpdatePet}/>}/> */}
+        <Route path='/view-pending' element={<PrivateRoute component={ViewPending}/>}/>
+       {/*  <Route path='/verify-pet' element={<PrivateRoute component={VerifyPet}/>}/> */}
+        <Route path='/update-pet' element={<PrivateRoute component={UpdatePet}/>}/>
         
         {/* CIVIC ROUTES */}
         {/* <Route path='/find-pets' element={<PrivateRoute component={FindPets}/>}/> */}
