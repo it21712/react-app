@@ -12,7 +12,7 @@ const Login = (props) => {
 
     const [credentials, setCredentials] = useState({username:'', password:''}) 
 
-    console.log(props.user)
+    //console.log(props.user)
     
 
     if(props.user.loggedIn){
@@ -25,8 +25,8 @@ const Login = (props) => {
     const onLoginPressed = (event)=> {
         event.preventDefault()
         
+        //login(credentials.username, credentials.password);
         sendCredentials(credentials.username, credentials.password);
-        
     };
 
     const handleInputChange = (event) =>{
@@ -40,51 +40,43 @@ const Login = (props) => {
     }
 
     
-    const sendCredentials2 = async (username, password) => {
-
-    }
-
+    
     const sendCredentials = async (username, password) => {
-
-        const res = await fetch('http://localhost:8080/logged_in',
+        console.log("about to login...")
+        const res = fetch('http://localhost:8080/logged_in',
         {
             mode:'cors',
             credentials:'include',
             headers: new Headers({
-                "Authorization" : `Basic ${base64.encode(`${username}:${password}`)}`
+                "Authorization" : `Basic ${base64.encode(`${username}:${password}`)}`,
+                "X-Requested-With": "XMLHttpRequest"
             })}
 
             )
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if(data.status === 401){
+            .then(response => {
+                console.log(response)
+                if(response.status === 401){
                     setLoginMessage("Wrong Credentials. Please try again")
-                }else{
-                    const responseRole = data.authorities[0].role;
-                    console.log(responseRole)
-                    if(responseRole === 'ROLE_ANONYMOUS' || responseRole === 'ROLE_ADMIN'){
-                        setLoginMessage("Wrong Credentials. Please try again")
-                        console.log('logged out')
-                    }
-                    else{
-                        console.log('logged in')
-                        
-                        props.setUser({role:data.authorities[0].role, loggedIn:true})
-                        const { from } = location.state || { from: { pathname: "/profile" } };
-                        navigate(from, {replace:true});
-                    }
+                    return;
+                }else if(response.status === 200){
+                    return response.json()
                 }
-
-                
+            }).then(data => {
+                console.log(data)
+                if(data === undefined) return;
+                props.setUser({role:data.authorities[0].role, loggedIn:true})
+                const { from } = location.state || { from: { pathname: "/profile" } };
+                navigate(from, {replace:true});
             })
-           
-
-        }
+            
+    }
 
 
   return (
-      <>
+    <>
+      {!props.user.loggedIn && (<div>
+
+
         <h2 style={{textAlign:"center"}}>Sign In</h2>
         <h3 style={{textAlign:"center"}}>{loginMessage}</h3>
         <div className='center'>
@@ -108,9 +100,10 @@ const Login = (props) => {
 
             </form>
     
-    </div>
-
-      </>
+        </div>
+      </div>)}
+        
+    </>
     
   );
 };

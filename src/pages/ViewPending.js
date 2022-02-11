@@ -134,8 +134,7 @@ const ViewPending = () => {
                                 <td>{entry.sex}</td>
                                 <td>{entry.birthDate}</td>
                                 <td>{approved(entry.is_approved)}</td>
-                                <td><input className = "table-button" type="submit" value="Update Medical" />
-                                    {entry.is_approved == 0 && <input id={entry.serialNumber} className = "table-button" type="submit" value="Verify" onClick={handleVerify.bind(this)}/>}</td>
+                                <td>{entry.is_approved == 0 && <input id={entry.serialNumber} className = "table-button" type="submit" value="Verify" onClick={handleVerify.bind(this)}/>}</td>
                             </tr>
                         ))
                     }
