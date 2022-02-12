@@ -23,7 +23,7 @@ const Navigation = (props) => {
             { role === 'ROLE_VET' && <li><Link className='node' to='/view-pending'>View Pending</Link></li>}
             {/* { role === 'ROLE_VET' && <li><Link className='node' to='/verify-pet'>Verify Pet</Link></li>} */}
             { role === 'ROLE_VET' && <li><Link className='node' to='/update-pet'>Update Pet</Link></li>}
-            { role === 'ROLE_CIVIC' && <li><Link className='node' to='/show-pets'>Find Pets</Link></li>}
+            { role === 'ROLE_CIVIC' && <li><Link className='node' to='/find-pets'>Find Pets</Link></li>}
            
         </ul>
         </nav>  

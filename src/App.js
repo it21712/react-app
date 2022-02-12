@@ -13,6 +13,7 @@ import ViewPending from './pages/ViewPending';
 import UpdatePet from './pages/UpdatePet';
 import AddPet from './pages/AddPet';
 import ViewPets from './pages/ViewPets';
+import FindPets from './pages/FindPets';
 import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/react.production.min';
 
 function App() {
@@ -93,7 +94,7 @@ function App() {
         <Route path='/update-pet' element={<PrivateRoute component={UpdatePet}/>}/>
         
         {/* CIVIC ROUTES */}
-        {/* <Route path='/find-pets' element={<PrivateRoute component={FindPets}/>}/> */}
+        <Route path='/find-pets' element={<PrivateRoute component={FindPets}/>}/>
         
         
 
