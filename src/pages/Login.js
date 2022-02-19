@@ -64,7 +64,14 @@ const Login = (props) => {
             }).then(data => {
                 console.log(data)
                 if(data === undefined) return;
-                props.setUser({role:data.authorities[0].role, loggedIn:true})
+                let responseRole = ''
+                data.authorities.forEach(function (item, index) {
+                    console.log(item.role)
+                    if(item.role.startsWith('ROLE')) {
+                    console.log('role is ' + item.role)
+                    responseRole = item.role}
+                });
+                props.setUser({role:responseRole, loggedIn:true})
                 const { from } = location.state || { from: { pathname: "/profile" } };
                 navigate(from, {replace:true});
             })

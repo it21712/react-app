@@ -31,10 +31,13 @@ function App() {
     )
     .then(response => response.json())
     .then(data => {
-      console.log(data.authorities[0].role)
-      console.log(data.authorities[0].role)
-      
-      const responseRole = data.authorities[0].role;
+      let responseRole = ''
+      data.authorities.forEach(function (item, index) {
+        console.log(item.role)
+        if(item.role.startsWith('ROLE')) {
+          console.log('role is ' + item.role)
+          responseRole = item.role}
+      });
       
       if(responseRole === 'ROLE_ANONYMOUS' || responseRole === 'ROLE_ADMIN'){
         setUser({role:'ROLE_ANONYMOUS', loggedIn:false})
@@ -42,7 +45,7 @@ function App() {
       }else{
         console.log('logged in')
         
-        setUser({role:data.authorities[0].role, loggedIn:true})
+        setUser({role:responseRole, loggedIn:true})
       }
     
     })
